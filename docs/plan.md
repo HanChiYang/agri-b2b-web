@@ -11,12 +11,12 @@
 
 | # | 問題 | 結論 |
 |---|---|---|
-| 1 | 前端框架 | Angular（取代後端計畫中的「React 或 Vue，待定」） |
-| 2 | 前端放在哪裡 | 獨立 repo，不放進後端 repo |
-| 3 | 前台和後台要做成一個網站還是兩個 | 一個網站，後台放在 `/admin/**` 底下，用 lazy loading 分開載入 |
+| 1 | 前端框架 | Angular（取代後端計畫中的「React 或 Vue，待定」），見 [ADR-0001](adr/0001-angular.md) |
+| 2 | 前端放在哪裡 | 獨立 repo `agri-b2b-web`，不放進後端 repo，見 [ADR-0004](adr/0004-separate-repo.md) |
+| 3 | 前台和後台要做成一個網站還是兩個 | 一個網站，後台放在 `/admin/**` 底下，用 lazy loading 分開載入，見 [ADR-0003](adr/0003-single-site-for-shop-and-admin.md) |
 | 4 | 前後端的開發順序 | 後端先完成，前端再開始做功能。前端需要的 API 細節（[第 6 節](#6-需要後端在規格中定下來的事)）在後端寫各階段規格時一起考慮 |
-| 5 | 開發流程 | 沿用後端的流程：規格 → 測試 → 實作、hook 擋下規格確認前的修改、完成前交給沒有上下文的 agent 審查、CI 把關 |
-| 6 | UI 套件 | Angular Material。重視升級穩定、文件與範例多；表格和檔案上傳要自己多組合幾個元件。比較見[第 3 節](#3-ui-套件比較) |
+| 5 | 開發流程 | 沿用後端的流程：規格 → 測試 → 實作、hook 擋下規格確認前的修改、完成前交給沒有上下文的 agent 審查、CI 把關，見 [ADR-0005](adr/0005-adopt-backend-dev-workflow.md) |
+| 6 | UI 套件 | Angular Material。重視升級穩定、文件與範例多；表格和檔案上傳要自己多組合幾個元件。比較見[第 3 節](#3-ui-套件比較)，決策見 [ADR-0002](adr/0002-angular-material.md) |
 
 ## 2. 技術選型
 
@@ -145,14 +145,17 @@ src/app/
 - [x] 確認 UI 套件：Angular Material（第 1 節第 6 項）
 - [ ] 後端新增 Angular 的 ADR，更新後端 `docs/plan.md`（第 6 節最後一項）
 - [x] `git init`（預設 branch 為 `main`）
-- [ ] 第一個 commit（`docs/plan.md`、`CLAUDE.md`），在 GitHub 建立 repo 並 push
+- [x] 第一個 commit（`docs/plan.md`、`CLAUDE.md`），在 GitHub 建立 repo `agri-b2b-web`（Public）並 push
 - [x] 建立 `CLAUDE.md`：Git 流程、規格 → 測試 → 實作、修 bug 流程、品質檢查、和後端的關係
-- [ ] 建立 `docs/adr/`、`docs/specs/`（含 `_template.md`、`README.md`）
-- [ ] 把後端的 hook（`require-feature-branch`、`require-confirmed-spec`）、`write-spec` skill、`spec-reviewer` subagent 改成前端適用的版本
+- [x] 建立 `docs/adr/`（ADR-0001～0005，記錄第 1 節的決策）、`docs/specs/`（含 `_template.md`、`README.md`）
+- [x] 把後端的 hook（`require-feature-branch`、`require-confirmed-spec`）、`write-spec` skill、`spec-reviewer` subagent 改成前端適用的版本
+- [x] `.gitattributes`：和後端一樣，文字檔一律用 LF 換行
 
 `.gitignore` 等到階段 F1 由 `ng new` 產生，現在先建立的話，可能會和 `ng new` 產生的檔案衝突；屆時再補上 `.claude/settings.local.json` 等不進版控的檔案。
 
 ### 階段 F1：專案骨架
+
+這個階段也照流程先寫規格（`docs/specs/f1-skeleton.md`），確認之後才執行 `ng new`：它會建立 `src/`、`public/`，hook 擋不住 shell 指令，要自己遵守。
 
 - [ ] `ng new`，啟用 strict
 - [ ] 加入 Angular Material（`ng add @angular/material`），設定主題
