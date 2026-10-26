@@ -1,0 +1,2 @@
+# 所有文字檔在 repo 和工作目錄都用 LF 換行，Windows 和 CI（Linux）上的格式檢查結果才會一致
+* text=auto eol=lf
